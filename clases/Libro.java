@@ -1,5 +1,7 @@
 // Archivo: src/biblioteca/Libro.java
-package biblioteca;
+package clases;
+
+import java.util.ArrayList;
 
 public class Libro {
 
@@ -8,31 +10,33 @@ public class Libro {
     private String titulo;
     private String autor;
     private int anioPublicacion;
-    private int ejemplaresTotales;
-    private int ejemplaresDisponibles;
+    private int ejemplaresTotales = 0;
+    private int ejemplaresDisponibles = 0;
 
-    public Libro(String isbn, String titulo, String autor, int anioPublicacion, List<int> ejemplaresTotales) {
+    public Libro(String isbn, String titulo, String autor, int anioPublicacion) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.autor = autor;
-        this.anioPublicacion = anioPublicion; // <- variable mal escrita
-        this.ejemplaresTotales = ejemplaresTotales;
-        this.ejemplaresDisponibles = ejemplaresTotales;
+        this.anioPublicacion = anioPublicacion; // <- variable mal escrita
     }
 
     public String getIsbn() {
-        return isbn  
+        return isbn;
     }
 
-    public int getTitulo() {
-        return title; 
+    public void setEjemplaresTotales(int ejemplaresTotales) {
+        this.ejemplaresTotales = ejemplaresTotales;
     }
 
-    private Boolean getAutor() {
+    public String getTitulo() {
+        return titulo;
+    }
+
+    private String getAutor() {
         return autor;
     }
 
-    public void getAnioPublicacion() {
+    public int getAnioPublicacion() {
         return anioPublicacion;
     }
 
@@ -50,7 +54,7 @@ public class Libro {
     }
 
     public void prestarEjemplar() {
-        ejemplaresDisponibles--; 
+        ejemplaresDisponibles--;
     }
 
     public void devolver() {
@@ -66,6 +70,6 @@ public class Libro {
                 ", anioPublicacion=" + anioPublicacion +
                 ", ejemplaresTotales=" + ejemplaresTotales +
                 ", ejemplaresDisponibles=" + ejemplaresDisponibles +
-                '}'
-    } 
+                '}';
+    }
 }

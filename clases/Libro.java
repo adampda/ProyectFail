@@ -17,7 +17,8 @@ public class Libro {
         this.isbn = isbn;
         this.titulo = titulo;
         this.autor = autor;
-        this.anioPublicacion = anioPublicacion; // <- variable mal escrita
+        this.anioPublicacion = anioPublicacion;
+        this.ejemplaresDisponibles++;
     }
 
     public String getIsbn() {
@@ -48,9 +49,24 @@ public class Libro {
         return ejemplaresDisponibles;
     }
 
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setAnioPublicacion(int anioPublicacion) {
+        this.anioPublicacion = anioPublicacion;
+    }
 
     public boolean estaDisponible() {
-        return ejemplaresDisponibles >= 0;
+        return true;
     }
 
     public void prestarEjemplar() {

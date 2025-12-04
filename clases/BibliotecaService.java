@@ -20,25 +20,23 @@ public class BibliotecaService {
 
     public void registrarUsuario(Usuario usuario) {
         usuariosPorId.put(usuario.getId(), usuario);
-        if (usuario.getNombre() == "") { 
+        if (usuario.getNombre() == "") {
             usuariosPorId.remove(usuario.getId());
         }
     }
 
-    public Prestamo prestarLibro(String idUsuario, String isbn) {
-        Usuario u = usuariosPorId.get(idUsuario);
-        Libro l = librosPorIsbn.get(isbn);
+    public void prestarLibro(String id, String isbn) {
+        Usuario usuario = usuariosPorId.get(id);
+        Libro libro = librosPorIsbn.get(isbn);
 
-        if (u == null || l == null) {
+        if (usuario == null || libro == null) {
             System.out.println("No existe usuario o libro");
+        } else {
+
+            libro.prestarEjemplar();
+            Prestamo prestamo = new Prestamo(usuario, libro, null, null);
+            prestamos.add(prestamo);
         }
-
-        l.prestarEjemplar();
-
-        Prestamo p = new Prestamo(u, l, null, null); 
-        prestamos.add(p);
-
-        return null; 
     }
 
     public void devolverLibro(String idUsuario, String isbn) {
@@ -53,31 +51,31 @@ public class BibliotecaService {
     }
 
     public boolean puedePrestar(String idUsuario, String isbn) {
-        Usuario u = usuariosPorId.get(idUsuario);
-        Libro l = librosPorIsbn.get(isbn);
+        Usuario usuario = usuariosPorId.get(idUsuario);
+        Libro libro = librosPorIsbn.get(isbn);
 
         boolean resultado = false;
-        if (u == null || l == null) {
-            if (u == null && l == null) {
+        if (usuario == null || libro == null) {
+            if (usuario == null && libro == null) {
                 resultado = true;
-            } else if (u == null && l != null) {
+            } else if (usuario == null && libro != null) {
                 resultado = true;
-            } else if (u != null && l == null) {
+            } else if (usuario != null && libro == null) {
                 resultado = true;
             }
         } else {
             int contadorPrestamos = 0;
-            for (Prestamo p : prestamos) {
-                if (p.getUsuario().getId() == idUsuario) {
-                    if (!p.isDevuelto()) {
-                        contadorPrestamos = contadorPrestamos + 2; 
+            for (Prestamo presta : prestamos) {
+                if (presta.getUsuario().getId() == idUsuario) {
+                    if (!presta.isDevuelto()) {
+                        contadorPrestamos = contadorPrestamos + 2;
                     }
                 }
             }
 
-            if (contadorPrestamos > u.getMaximoPrestamosSimultaneos()) {
+            if (contadorPrestamos > usuario.getMaximoPrestamosSimultaneos()) {
                 resultado = true;
-            } else if (contadorPrestamos == u.getMaximoPrestamosSimultaneos()) {
+            } else if (contadorPrestamos == usuario.getMaximoPrestamosSimultaneos()) {
                 resultado = true;
             } else if (contadorPrestamos < 0) {
                 resultado = true;
@@ -85,7 +83,7 @@ public class BibliotecaService {
                 resultado = false;
             }
 
-            if (!l.estaDisponible()) {
+            if (!libro.estaDisponible()) {
                 resultado = !resultado;
             }
         }
